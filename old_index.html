@@ -1,0 +1,24 @@
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+
+    var socket = io.connect('http://14.63.215.103:3000/index.html');
+    socket.on('message', function(data) {
+        console.log(data);
+        message_list.innerHTML = "YOU :" + data.message + "<br />" + message_list.innerHTML;
+    });
+
+    socket.on('my_message', function(data) {
+        message_list.innerHTML = "ME :" + data.message + "<br />" + message_list.innerHTML;
+    });
+
+    function send() {
+        socket.emit('my other event', {message:input.value});
+        input.value = "";
+    }
+
+</script>
+
+<input onkeydown="if (event.keyCode == 13) send() " id="input" type="message">
+<button type="button" onclick="send()">Send</button>
+<div id="message_list"></div>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ゆかりとチャット♡</title>
+  <script src="http://code.jquery.com/jquery-1.7.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+var socket = io.connect('http://14.63.215.103:3000');
+jQuery(document).ready(function() {
+
+    jQuery('#talk').bind('keypress', function(e) {
+		var code = (e.KeyCode ? e.KeyCode : e.which);
+		if(code == 13) {
+			socket.emit('foo', {chat : this.value });
+			jQuery('#chatfield').append(this.value + "<br/>");
+			this.value='';
+		}
+	});
+
+	socket.on('bar', function(data) {
+		jQuery('#chatfield').append(data.chat + "<br/>");
+	});
+});
+</script>
+
+  </head>
+<body>
+<h1>Test Chat Server</h1>
+<div id="chatfield"></div>
+<input id="talk">
+
+</body>
+</html>
